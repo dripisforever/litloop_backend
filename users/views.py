@@ -48,8 +48,8 @@ class RegisterView(generics.GenericAPIView):
         # current_site = 'localhost:8000/'
         relative_link = reverse('email-verify')
 
-        absurl = 'http://' + current_site + relative_link+'?token=' + str(token)
-        email_body = 'Hi ' + user.username + ' Use link below to verify your email: \n' + absurl
+        url_with_token = 'http://' + current_site + relative_link+'?token=' + str(token)
+        email_body = 'Hi ' + user.username + ' Use link below to verify your email: \n' + url_with_token
 
         data = {
             'email_body': email_body,
@@ -130,13 +130,42 @@ class CurrentUserView(generics.GenericAPIView):
     #     # return self.retrieve(request, user_id)
 
 
+# REFERENCE https://www.youtube.com/watch?utm_source=pocket_saves&v=PUzgZrS_piQ
+class CurrentUserViewAPI(APIView):
+
+    def get(self, request):
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated')
+
+        user = User.objects.filter(id=payload['id']).first
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+
 class UserView(UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = 'id'
 
+class UpdateCurrentUserView(generics.GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    lookup_field = 'id'
+    def put(self, request):
+        context = {'request':request}
+        serializer = UserSerializer(request.user, context=context)
+        # serializer.is_valid(raise_exception=True)
 
+        return Response(serializer.data, status=status.HTTP_200_OK)
 class UserDetailAPIView(RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -184,6 +213,7 @@ class UserDetailByIdAPIView(RetrieveAPIView):
         serializer = PostSerializer(user_posts, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
         # return self.queryset.filter(likes__user=user_id)
+
 
 class UserPostsList(ListAPIView):
     # queryset = Post.objects.all()

@@ -1,12 +1,23 @@
-from django.db import models
-
-# Create your models here.
+# from django.db import models
+# from mptt.models import MPTTModel, TreeForeignKey
+# # from media.services import Media
 #
 # class Video(models.Model):
-#     user = models.ForeignKey(User)
+#     # likes = GenericRelation(Like, related_query_name='post_likes', null=True)
+#     # dislikes = GenericRelation(Dislike, related_query_name='post_dislikes', null=True)
+#     # views = GenericRelation(View, related_query_name='post_views', null=True)
+#     video_file = models.FileField(upload_to='/videos')
 #     title = models.CharField(max_length=100)
-#     original = models.FileField(upload_to=get_upload_file_name)
-#     mp4_480 = models.FileField(upload_to=get_upload_file_name, blank=True, null=True)
-#     mp4_720 = models.FileField(upload_to=get_upload_file_name, blank=True, null=True)
-#     privacy = models.CharField(max_length=1,choices=PRIVACY, default='F')
-#     pub_date = models.DateTimeField(auto_now_add=True, auto_now=False)
+#     description = models.CharField(max_length=100)
+#     song = models.ForeignKey(Song, on_delete=models.CASCADE, blank=True)
+#
+#
+# class VideoPlaylist(models.Model):
+#     videos = models.ManyToManyField(Video, through='VideoPlaylistItem')
+#
+# class VideoPlaylistItem(models.Model):
+#
+#     # media = models.ForeignKey(Media, on_delete=models.CASCADE)
+#     video = models.ForeignKey(Video, on_delete=models.CASCADE)
+#     playlist = models.ForeignKey(VideoPlaylist, on_delete=models.CASCADE)
+#     ordering = models.IntegerField(default=1)

@@ -74,7 +74,7 @@ class FeedAPIView(APIView, PageNumberPagination):
                 client_secret=SPOTIPY_CLIENT_SECRET
             )
         )
-        feed_info = sp.new_releases(limit='50')
+        feed_info = sp.new_releases(country="US", limit='50', )
 
         # return Response(feed_info.get('albums'))
 
@@ -82,7 +82,8 @@ class FeedAPIView(APIView, PageNumberPagination):
             album_uri = album_data['id']
             album_info = sp.album(album_uri)
             album = Album.create(**album_info)
-
+            # album = await Album.create(**album_info)
+            # spotify_task.delay(**album_info)
 
         queryset = Album.objects.all()
         page = self.paginate_queryset(self, queryset, request)
@@ -93,10 +94,10 @@ class FeedAPIView(APIView, PageNumberPagination):
         snippet = Album.objects.all().order_by('-created_at')
         # serializer = AlbumsSerializer(snippet, context={'request': self.request}, many=True)
         serializer = self.get_serializer(queryset, context={'request': self.request}, many=True)
-        return Response(serializer.data)
+        # return Response(serializer.data)
         # return Response(serializer.data)
         # return self.get_paginated_response(serializer.data)
-        # return Response(feed_info)
+        return Response(feed_info)
 
 class AlbumAPIView(RetrieveAPIView):
     queryset = Album.objects.all()
@@ -218,6 +219,7 @@ class AlbumDetailAPIView(RetrieveAPIView):
 
 
         album = Album.create(**album_info)
+        # spotify_task.delay(**album_info)
 
         snippet = Album.objects.get(album_uri=album_uri)
         serializer = AlbumsSerializer(snippet, context={'request': self.request})

@@ -16,6 +16,14 @@ django-cors-headers = "*"
 py-deezer = "*"
 deezer-py = "*"
 gunicorn = "*"
+m3u8 = "*"
+django-mptt = "*"
+filetype = "*"
+pillow = "*"
+django-imagekit = "*"
+django-redis = "*"
+django-storages = "*"
+celery = "==4.4.7"
 
 [dev-packages]
 

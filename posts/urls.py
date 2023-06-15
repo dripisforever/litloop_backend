@@ -39,7 +39,9 @@ urlpatterns = [
     path('feed/upd/', NewReleasesAPIView.as_view(), name="feed"),
     path('<int:id>/', PostDetailAPIView.as_view(), name="post"),
     path('<int:id>/like/', LikeToggleView.as_view(), name="post"),
+    path('impression/', LikeToggleView.as_view(), name="post"),
     path('<int:id>/likers/', PostLikedByList.as_view(), name="post"),
+    path('<int:id>/impressions/', PostDetailAPIView.as_view(), name="post"),
 
     path('search/artist', SearchArtistAPIView.as_view(), name="search"),
     path('search/album', SearchAlbumAPIView.as_view(), name="search"),

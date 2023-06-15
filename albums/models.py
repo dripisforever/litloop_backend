@@ -3,9 +3,10 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.sites.shortcuts import get_current_site
 
-# from artists.models import Artist
-# from tracks.models import Track
-# from images.models import Image
+from artists.models import Artist
+from tracks.models import Track
+from images.models import Image
+
 from likes.models import Like
 
 # import artists.models as Artist
@@ -33,15 +34,17 @@ class Album(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     # faves = ManyToManyField('users.User', related_name='album_user', blank=True, through=TweetLike)
+    # tracks = ManyToManyField(Track,  through='AlbumTracks')
     # album = models.ForeignKey(Album, related_name='tracks', on_delete=models.CASCADE)
     # author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
 
     @classmethod
     def create(cls, **kwargs):
 
-        from artists.models import Artist
-        from tracks.models import Track
-        from images.models import Image
+        # from artists.models import Artist
+        # from tracks.models import Track
+        # from images.models import Image
+
         # current_site = get_current_site(request).domain
 
         album, created = cls.objects.get_or_create(
@@ -96,3 +99,7 @@ class Album(models.Model):
         # )
 
         return album
+
+
+class AlbumTrack(models.Model):
+    pass

@@ -37,6 +37,7 @@ class PostCreateAPIView(CreateAPIView):
     #     # serializer = self.serializer_class(context={'request': request}, data=request.data)
     #     if serializer.is_valid():
     #         serializer.save()
+    #         publish('post_created:', serializer.data)
     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
     #     else:
     #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

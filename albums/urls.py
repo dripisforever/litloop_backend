@@ -20,6 +20,7 @@ from likes.api.views import (
     LikeToggleView,
     LikedIDsAPIView,
 )
+from views.views import ViewView
 
 urlpatterns = [
     # path('<int:id>', PostDetailAPIView.as_view(), name="post"),
@@ -38,5 +39,6 @@ urlpatterns = [
     path('<str:album_uri>/upd', AlbumDetailAPIView.as_view(), name="album_detail_upd"),
     path('<str:album_uri>/', AlbumDetailedAPIView.as_view(), name="album_detail"),
 
+    path('<int:pk>/view/', ViewView.as_view(), name='view'),
 
 ]

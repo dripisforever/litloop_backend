@@ -20,6 +20,7 @@ Artist = apps.get_model(app_label='artists', model_name='Artist')
 Album = apps.get_model(app_label='albums', model_name='Album')
 Like = apps.get_model(app_label='likes', model_name='Like')
 Image = apps.get_model(app_label='images', model_name='Image')
+Playlist = apps.get_model(app_label='playlists', model_name='Playlist')
 
 
 class ArtistsSerializer(serializers.ModelSerializer):
@@ -38,6 +39,7 @@ class ArtistsSerializer(serializers.ModelSerializer):
     def get_id(self, obj):
 
         return obj.artist_uri
+
 
 class ImagesSerializer(serializers.ModelSerializer):
 
@@ -151,3 +153,21 @@ class AlbumsSerializer(serializers.ModelSerializer):
 
     def get_total_likes(self, obj):
         return likes_services.get_object_likes_count(obj)
+
+
+class PlaylistSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source="user.username")
+
+    class Meta:
+        model = Playlist
+        read_only_fields = ("add_date", "user")
+        fields = ("title", "add_date", "description", "user", "media_count", "url", "thumbnail_url", "api_url")
+
+
+class PlaylistDetailSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source="user.username")
+
+    class Meta:
+        model = Playlist
+        read_only_fields = ("add_date", "user")
+        fields = ("title", "add_date", "description", "user", "media_count", "url", "thumbnail_url", "user_thumbnail_url")

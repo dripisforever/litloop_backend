@@ -32,7 +32,7 @@ def get_meals(request, track_uri):
             # all_meals = Album.objects.all().order_by('-id')
 
             Album.objects.filter(
-                Q(id = i['id'],) |
+                Q(id = i['id']) |
                 Q(first_name='Robert'),
             ).get_or_create(
                 id=i['id'],

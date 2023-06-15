@@ -105,14 +105,16 @@ class TrackGetOrCreateAPIView(RetrieveAPIView):
         album_uri = track_data['album']['id']
         album_data = sp.album(album_uri)
         album = Album.create(**album_data)
-
+        # spotify_album.delay(**album_data)
+        
         track = Track.create(**track_data)
+        # spotify_track.delay(**track_data)
 
         for artist_data in track_data['artists']:
             artist_uri = artist_data['id']
             artist_data = sp.artist(artist_uri)
             Artist.create(**artist_data)
-
+            # spotify_artist.delay(**artist_data)
 
 
 
