@@ -71,6 +71,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def likes_count(self):
         return self.likes.count()
 
+    def views_count(self):
+        return self.viewed.count()
+
     def posts_count(self):
         return self.posts.count()
     # def tokens(self):

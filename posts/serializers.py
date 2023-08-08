@@ -21,6 +21,8 @@ class PostSerializer(serializers.ModelSerializer):
             'image',
             'is_liked',
             'likes_count',
+            'views',
+            'views_count',
             'total_likes',
             'created_at',
             'updated_at',

@@ -1,0 +1,2 @@
+ffmpeg -i https://notreal-bucket.s3-us-west-1.amazonaws.com/video/video.mp4 
+-f mp4 -movflags frag_keyframe+empty_moov pipe:1 | aws s3 cp - s3://notreal-bucket/video/output.mp4

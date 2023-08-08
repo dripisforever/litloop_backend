@@ -1,0 +1,92 @@
+version: "3"
+
+services:
+  migrations:
+    image: litloop/litloop:latest
+    volumes:
+      - ./:/home/litloop.co/litloop/
+    environment:
+      ENABLE_UWSGI: 'no'
+      ENABLE_NGINX: 'no'
+      ENABLE_CELERY_SHORT: 'no'
+      ENABLE_CELERY_LONG: 'no'
+      ENABLE_CELERY_BEAT: 'no'
+      ADMIN_USER: 'admin'
+      ADMIN_EMAIL: 'admin@localhost'
+      #ADMIN_PASSWORD: 'uncomment_and_set_password_here'
+    command: "./deploy/docker/prestart.sh"
+    restart: on-failure
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+  web:
+    image: litloop/litloop:latest
+    deploy:
+      replicas: 1
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/home/litloop.co/litloop/
+    environment:
+      ENABLE_CELERY_BEAT: 'no'
+      ENABLE_CELERY_SHORT: 'no'
+      ENABLE_CELERY_LONG: 'no'
+      ENABLE_MIGRATIONS: 'no'
+    depends_on:
+      - migrations
+  celery_beat:
+    image: litloop/litloop:latest
+    volumes:
+      - ./:/home/litloop.co/litloop/
+    environment:
+      ENABLE_UWSGI: 'no'
+      ENABLE_NGINX: 'no'
+      ENABLE_CELERY_SHORT: 'no'
+      ENABLE_CELERY_LONG: 'no'
+      ENABLE_MIGRATIONS: 'no'
+    depends_on:
+      - redis
+  celery_worker:
+    image: litloop/litloop:latest
+    deploy:
+      replicas: 1
+    volumes:
+      - ./:/home/litloop.co/litloop/
+    environment:
+      ENABLE_UWSGI: 'no'
+      ENABLE_NGINX: 'no'
+      ENABLE_CELERY_BEAT: 'no'
+      ENABLE_MIGRATIONS: 'no'
+    depends_on:
+      - migrations
+  db:
+    image: postgres
+    volumes:
+      - ../postgres_data:/var/lib/postgresql/data/
+    restart: always
+    environment:
+      POSTGRES_USER: litloop
+      POSTGRES_PASSWORD: litloop
+      POSTGRES_DB: litloop
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U litloop"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  rabbitmq:
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+  redis:
+    image: "redis:alpine"
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

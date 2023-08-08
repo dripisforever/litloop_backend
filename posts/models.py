@@ -26,7 +26,10 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     likes = GenericRelation(Like, related_query_name='post_likes', null=True)
-    # views = GenericRelation(View, related_query_name='post_views', null=True)
+    # likes = models.IntegerField(default=0, blank=True)
+    
+
+    # views = models.IntegerField(default=0, blank=True)
 
     class Meta:
         ordering: ['-updated_at']
@@ -41,6 +44,9 @@ class Post(models.Model):
 
     def likes_count(self):
         return self.likes.count()
+
+    def views_count(self):
+        return self.views.count()
 
     # def is_liked(self):
     #     return self.

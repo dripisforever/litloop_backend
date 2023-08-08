@@ -118,6 +118,7 @@ class UserSerializer(serializers.ModelSerializer):
             'posts',
             'posts_count',
             'likes_count',
+            'views_count',
         ]
     # class Meta:
     #     model = User

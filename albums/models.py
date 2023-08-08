@@ -33,7 +33,7 @@ class Album(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # faves = ManyToManyField('users.User', related_name='album_user', blank=True, through=TweetLike)
+    # faves = ManyToManyField('users.User', related_name='faved_albums', blank=True, through=TweetLike)
     # tracks = ManyToManyField(Track,  through='AlbumTracks')
     # album = models.ForeignKey(Album, related_name='tracks', on_delete=models.CASCADE)
     # author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
