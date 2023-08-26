@@ -24,6 +24,8 @@ django-imagekit = "*"
 django-redis = "*"
 django-storages = "*"
 celery = "==4.4.7"
+channels = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 
