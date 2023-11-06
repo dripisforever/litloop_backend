@@ -13,6 +13,9 @@ from django.views.decorators.csrf import csrf_exempt
 # from media.helpers import rm_file
 # from media.models import Media
 
+# from media.helpers import rm_file
+from videos.models import Video
+
 from .fineuploader import ChunkedFineUploader
 from .forms import FineUploaderUploadForm, FineUploaderUploadSuccessForm
 
@@ -67,8 +70,11 @@ class FineUploaderView(generic.FormView):
         # create media!
         media_file = os.path.join(settings.MEDIA_ROOT, self.upload.real_path)
         with open(media_file, "rb") as f:
+            # myfile = File(f)
+            # new = Media.objects.create(media_file=myfile, user=self.request.user)
+
             myfile = File(f)
-            new = Media.objects.create(media_file=myfile, user=self.request.user)
+            new = Video.objects.create(video_file=myfile, user=self.request.user)
 
         # remove chunks
         rm_file(media_file)
