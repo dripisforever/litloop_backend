@@ -6,17 +6,11 @@ from django.db import models
 from users.models import User
 
 class Like(models.Model):
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='likes', on_delete=models.CASCADE)
+
     user = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE)
     post = models.ForeignKey(Post, related_name="likes", on_delete=models.CASCADE, related_query_name="like",)
     date_created = models.DateTimeField(auto_now_add=True)
 
-    # article = models.ForeignKey(
-    #     Article,
-    #     on_delete=models.CASCADE,
-    #     related_name="tags",
-    #     related_query_name="tag",
-    # )
 
 # class Post(models.Model):
 #     likes = models.ManyToManyField(User)

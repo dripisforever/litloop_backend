@@ -22,11 +22,11 @@ class Post(models.Model):
     # likes = GenericRelation(Like)
     # likes = GenericRelation(Like, related_query_name='like')
     # likes = GenericRelation(Like, related_query_name='posts')
-    # likes = models.ManyToManyField(User, blank=True, related_name='likes', through=Like)
-    # likes = models.ManyToManyField(Like, blank=True, related_name='likes', through=PostLike)
+    # likes = models.ManyToManyField(User, through=Like, blank=True, related_name='likes')
+    # likes = models.ManyToManyField(Like, through=PostLike, blank=True, related_name='likes')
 
     # views = models.ManyToManyField(View, through="PostView", related_name="posts")
-    
+
     # liked_users = models.ManyToManyField(User, through=Like, related_name='liked_posts')
     likes = GenericRelation(Like, related_query_name='post_likes', null=True)
 

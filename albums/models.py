@@ -7,7 +7,7 @@ from artists.models import Artist
 from tracks.models import Track
 from images.models import Image
 
-from likes.models import Like
+# from likes.models import Like
 
 # import artists.models as Artist
 # import tracks.models as Track
@@ -27,9 +27,8 @@ class Album(models.Model):
     album_uri = models.CharField(max_length=400)
     artists = models.ManyToManyField('artists.Artist', related_name='albums')
     # images = models.ManyToManyField(Image, related_name='albums')
-    # likes = GenericRelation(Like, related_query_name='album_likes', null=True)
-    # likes = GenericRelation('likes.Like', related_query_name='album_likes', null=True, on_delete=models.CASCADE)
-    likes = GenericRelation(Like, related_query_name='album_likes', null=True, on_delete=models.CASCADE)
+    # likes = GenericRelation(Like, related_query_name='album_likes', null=True, on_delete=models.CASCADE)
+    # likes = ManyToManyField('users.User', related_name='liked_albums', blank=True, through=AlbumLike)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -103,3 +102,19 @@ class Album(models.Model):
 
 class AlbumTrack(models.Model):
     pass
+
+class AlbumLike(models.Model):
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    liked_by = models.ForeignKey('users.User', on_delete=models.CASCADE)
+
+class AlbumDislike(models.Model):
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    dislike_by = models.ForeignKey('users.User', on_delete=models.CASCADE)
+
+class AlbumImpression(models.Model):
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+
+class AlbumView(models.Model):
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)

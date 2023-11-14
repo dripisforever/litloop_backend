@@ -30,7 +30,10 @@ class Track(models.Model):
     track_number = models.CharField(max_length=400, default="")
     artists = models.ManyToManyField('artists.Artist', related_name='tracks')
     album = models.ForeignKey('albums.Album', related_name='tracks', on_delete=models.CASCADE)
-    likes = GenericRelation('likes.Like', related_query_name='track_likes', null=True)
+    # likes = GenericRelation('likes.Like', related_query_name='track_likes', null=True)
+    likes = models.ManyToManyField('users.User', through='TrackLike', blank=True, related_name='track_likes')
+    plays = models.ManyToManyField('users.User', through='TrackPlay', blank=True, related_name='track_plays')
+
     # tags = GenericRelation('likes.Tag', related_query_name='track_tags', null=True)
     # comments = GenericRelation('comments.Comment', related_query_name='track_comments', null=True)
 
@@ -90,3 +93,23 @@ class Track(models.Model):
 #
 #     for track_data in json_data:
 #         track = Track.create(**track_data)
+
+class TrackLike(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    liked_by = models.ForeignKey('users.User', on_delete=models.CASCADE)
+
+class TrackDislike(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    dislike_by = models.ForeignKey('users.User', on_delete=models.CASCADE)
+
+class TrackImpression(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+
+class TrackView(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+
+class TrackPlay(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)

@@ -3,7 +3,7 @@ from typing import List, TYPE_CHECKING
 # from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 
-from .models import Like
+from posts.models import PostLike
 from users.models import User
 
 if TYPE_CHECKING:
@@ -19,7 +19,7 @@ __all__ = (
 
 
 def get_user_likes(user, content_type):
-    queryset = Like.objects.filter(user=user)
+    queryset = PostLike.objects.filter(user=user)
 
     if content_type:
         queryset = queryset.filter(content_type=content_type)

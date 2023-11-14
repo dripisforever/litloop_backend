@@ -18,14 +18,14 @@ from likes import services as likes_services
 Track = apps.get_model(app_label='tracks', model_name='Track')
 Artist = apps.get_model(app_label='artists', model_name='Artist')
 Album = apps.get_model(app_label='albums', model_name='Album')
-Like = apps.get_model(app_label='likes', model_name='Like')
+# Like = apps.get_model(app_label='likes', model_name='Like')
 Image = apps.get_model(app_label='images', model_name='Image')
 
 
 class ArtistsSerializer(serializers.ModelSerializer):
 
     id = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Artist
         fields = [

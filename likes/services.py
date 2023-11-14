@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpRequest
 
-from likes.models import Like
+from posts.models import PostLike
 from likes.signals import object_liked, object_unliked
 from likes.selectors import get_user_likes
 
@@ -28,7 +28,7 @@ def toggle(user, content_type, object_id):
     """
     Class method to like-dislike object
     """
-    obj, created = Like.objects.get_or_create(
+    obj, created = PostLike.objects.get_or_create(
         user=user,
         content_type=content_type,
         object_id=object_id
@@ -77,7 +77,7 @@ def get_object_likes_count(obj):
     Returns count of likes for a given object.
     """
     return (
-        Like.objects
+        PostLike.objects
         .filter(
             content_type=(
                 ContentType.objects.get_for_model(obj)
@@ -96,7 +96,7 @@ def is_object_liked_by_user(obj, user):
         return False
 
     return (
-        Like.objects
+        PostLike.objects
         .filter(
             content_type=(
                 ContentType.objects.get_for_model(obj)
@@ -114,13 +114,13 @@ def send_signals(created, request, like, obj):
     """
     if created:
         object_liked.send(
-            sender=Like,
+            sender=PostLike,
             like=like,
             request=request
         )
     else:
         object_unliked.send(
-            sender=Like,
+            sender=PostLike,
             object=obj,
             request=request
         )
@@ -134,7 +134,7 @@ def is_fan(obj, user):
 
     obj_type = ContentType.objects.get_for_model(obj)
 
-    likes = Like.objects.filter(
+    likes = PostLike.objects.filter(
         content_type=obj_type,
         object_id=obj.id,
         user=user

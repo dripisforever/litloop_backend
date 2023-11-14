@@ -14,7 +14,7 @@ from likes.api.fields import (
     ContentTypeNaturalKeyField,
     LikedObjectRelatedField
 )
-from likes.models import Like
+from posts.models import PostLike
 from likes.utils import allowed_content_type
 from likes.services import toggle, send_signals
 from users.serializers import UserSerializer
@@ -32,7 +32,7 @@ class LikeListSerializer(serializers.ModelSerializer):
     content_object = LikedObjectRelatedField(read_only=True)
     user = UserSerializer()
     class Meta:
-        model = Like
+        model = PostLike
         fields = '__all__'
 
 
@@ -44,7 +44,7 @@ class LikeToggleSerializer(serializers.ModelSerializer):
     type = ContentTypeNaturalKeyField(write_only=True)
 
     class Meta:
-        model = Like
+        model = PostLike
         fields = [
             'id',
             'type'

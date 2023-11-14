@@ -11,8 +11,8 @@ from likes.api.serializers import (
     LikeToggleSerializer,
     LikeContentTypeSerializer
 )
-from likes.models import Like
-from posts.models import Post
+# from likes.models import Like
+from posts.models import Post, PostLike
 from likes.selectors import get_liked_object_ids, get_users_who_liked_object, get_user_likes
 from likes.services import get_user_likes_count
 
@@ -52,7 +52,7 @@ class LikeToggleView(CreateAPIView):
             status=status.HTTP_201_CREATED,
             headers=self.get_success_headers(serializer.data)
         )
-        
+
 class LikeAlbumToggleView(CreateAPIView):
     """
     post:
@@ -184,7 +184,7 @@ class LikeListAPIView(ListAPIView):
     pagination_class = get_pagination_class()
     permission_classes = (IsAuthenticated, )
     serializer_class = LikeListSerializer
-    queryset = Like.objects.all()
+    queryset = PostLike.objects.all()
     filter_backends = (filters.SearchFilter, )
     search_fields = (
         'content_type__model',

@@ -8,7 +8,7 @@ from tracks.models import Track
 from images.models import Image
 from albums.models import Album
 from users.models import User
-from likes.models import Like
+# from likes.models import Like
 # from media.models import Media
 
 
@@ -36,13 +36,11 @@ class Playlist(models.Model):
     # name = models.CharField(max_length=400)
     # playlist_uri = models.CharField(max_length=400)
     # artists = models.ManyToManyField('artists.Artist', related_name='albums')
-    # likes = GenericRelation(Like, related_query_name='playlist_likes', null=True)
-    # likes = GenericRelation('likes.Like', related_query_name='playlist_likes', null=True, on_delete=models.CASCADE)
-    # likes = GenericRelation(Like, related_query_name='playlist_likes', null=True, on_delete=models.CASCADE)
+
     # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
 
-    # faves = models.ManyToManyField('users.User', related_name='album_user', blank=True, through=TweetLike)
+    # likes = models.ManyToManyField('users.User', related_name='liked_playlists', blank=True, through=PlaylistLike)
     # album = models.ForeignKey(Album, related_name='tracks', on_delete=models.CASCADE)
     # author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
 
