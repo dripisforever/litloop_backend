@@ -27,8 +27,7 @@ class Album(models.Model):
     album_uri = models.CharField(max_length=400)
     artists = models.ManyToManyField('artists.Artist', related_name='albums')
     # images = models.ManyToManyField(Image, related_name='albums')
-    # likes = GenericRelation(Like, related_query_name='album_likes', null=True, on_delete=models.CASCADE)
-    # likes = ManyToManyField('users.User', related_name='liked_albums', blank=True, through=AlbumLike)
+    # likes  = models.ManyToManyField('users.User', related_name='liked_albums', blank=True, through=AlbumLike)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

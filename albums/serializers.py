@@ -39,7 +39,7 @@ class ArtistsSerializer(serializers.ModelSerializer):
 
         return obj.artist_uri
 
-class ImagesSerializer(serializers.ModelSerializer):
+class AlbumImagesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
@@ -90,7 +90,7 @@ class TrackSerializer(serializers.ModelSerializer):
 class AlbumsSerializer(serializers.ModelSerializer):
     artists = ArtistsSerializer(many=True)
     tracks = serializers.SerializerMethodField()
-    images = ImagesSerializer(many=True)
+    images = AlbumImagesSerializer(many=True)
     is_liked = serializers.SerializerMethodField()
     total_likes = serializers.SerializerMethodField()
     id = serializers.SerializerMethodField()

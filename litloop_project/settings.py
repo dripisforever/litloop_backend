@@ -61,6 +61,8 @@ LOCAL_APPS = [
     'photos',
     'comments',
     'uploader',
+    'movies',
+    
     # 'media',
     # 'encoding',
     'litloop_project',
@@ -426,6 +428,14 @@ SESSION_CACHE_ALIAS = "default"
 # CELERY STUFF
 RABBITMQ_LOCATION = "amqp://localhost"
 
+CELERY_IMPORTS = [
+    'views.tasks',
+    'posts.tasks'
+]
+INSTALLED_APPS_WITH_APPCONFIGS = [
+    'views',
+    'posts',
+]
 # BROKER_URL = REDIS_LOCATION
 BROKER_URL = RABBITMQ_LOCATION
 CELERY_RESULT_BACKEND = REDIS_LOCATION

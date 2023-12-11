@@ -35,7 +35,7 @@ class Post(models.Model):
     tracks = models.ManyToManyField(Track, through="PostTrack")
     photos = models.ManyToManyField(Photo, through="PostPhoto")
     playlists = models.ManyToManyField(Playlist, through="PostPlaylist")
-    likes = models.ManyToManyField(User, through="PostLike")
+    # likes = models.ManyToManyField(User, through="PostLike")
 
     title = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=100, blank=True)

@@ -5,14 +5,15 @@ from posts.helpers import original_media_file_path, original_thumbnail_file_path
 # # from media.services import Media
 #
 class Video(models.Model):
-
-    video_file = models.FileField(upload_to='media_files/videos/')
-    sprites = models.FileField(upload_to=original_thumbnail_file_path, blank=True, max_length=500)
-
-
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
+    video_file = models.FileField(upload_to='media_files/videos/')
+
+    sprites = models.FileField(upload_to=original_thumbnail_file_path, blank=True, max_length=500)
+    thumbnail = models.FileField(upload_to=original_thumbnail_file_path, blank=True, max_length=500)
+
     # song = models.ForeignKey(Song, on_delete=models.CASCADE, blank=True)
+    # user = models.ForeignKey('users.User', on_delete=models.CASCADE, blank=True)
 
 
 class VideoPlaylist(models.Model):

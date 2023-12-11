@@ -16,6 +16,8 @@ from .views import (
     FeedAPIView,
     PostCreateAPIView,
     NewReleasesAPIView,
+
+    ViewsUP,
 )
 
 from likes.api.views import (
@@ -48,5 +50,6 @@ urlpatterns = [
     path('search/track', SearchTrackAPIView.as_view(), name="search"),
     # path('search', SearchAlbumAPIView.as_view(), name="search"),
 
+    path('up', ViewsUP.as_view())
     # path('search', PostSearchAPIView.as_view(), name="search"),
 ]

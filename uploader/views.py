@@ -74,7 +74,10 @@ class FineUploaderView(generic.FormView):
             # new = Media.objects.create(media_file=myfile, user=self.request.user)
 
             myfile = File(f)
-            new = Video.objects.create(video_file=myfile, user=self.request.user)
+            new = Video.objects.create(
+                video_file=myfile,
+                # user=self.request.user
+            )
 
         # remove chunks
         rm_file(media_file)
